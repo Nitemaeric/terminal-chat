@@ -21,6 +21,10 @@ Array.prototype.remove = function(item){
 	}
 }
 
+String.prototype.startsWith = function (str){
+    return this.indexOf(str) == 0;
+};
+
 var list = [];
 
 console.log('Starting server on port '+port);
@@ -49,6 +53,9 @@ io.on('connection', function(socket){
 			if(message[0] == '/'){
 				if(message == '/userlist' || message == '/ul'){
 					socket.emit('command', list)
+				}
+				else if(message.startsWith('/say ')){
+					socket.broadcast.emit('speak', socket.username+' says '+message.slice(5))
 				}
 			}
 			else{

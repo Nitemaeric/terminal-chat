@@ -29,8 +29,13 @@ rl.question("Username: ", function(username) {
 	})
 
 	socket.on('message', function(message){
-		spawn('say', [message])
 		console.log('\u0007'+message);
+		chat();
+	})
+
+	socket.on('speak', function(message){
+		spawn('say', [message])
+		console.log(message);
 		chat();
 	})
 
