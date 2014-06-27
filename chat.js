@@ -7,6 +7,8 @@ var socket = require('socket.io-client')('http://'+host+':'+port);
 
 var readline = require('readline');
 
+var fs = require('fs')
+
 var rl = readline.createInterface({
 	input: process.stdin,
 	output: process.stdout
@@ -15,9 +17,14 @@ var rl = readline.createInterface({
 rl.question("Username: ", function(username) {
 	socket.emit('login', username);
 
-	socket.on('login', function(username){
-		console.log('Logged in as '+username);
+	socket.on('login', function(reply){
+		console.log(reply);
 		chat();
+	})
+
+	socket.on('incorrect', function(reply){
+		console.log(reply);
+		login();
 	})
 
 	socket.on('message', function(message){
@@ -35,9 +42,20 @@ rl.question("Username: ", function(username) {
 	})
 });
 
+function login(){
+	rl.question("Username: ", function(username) {
+		socket.emit('login', username);
+	})
+}
+
 function chat(){
 	rl.question("", function(message){
-		socket.emit('message', message)
+		if(message == '/dir'){
+			console.log(fs.readdirSync('.'))
+		}
+		else{
+			socket.emit('message', message)
+		}
 		chat();
 	})
 }

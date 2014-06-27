@@ -13,6 +13,7 @@
   "author": "Daniel P. Dye",
   "license": "ISC",
   "dependencies": {
+    "lodash": "^2.4.1",
     "socket.io": "^1.0.6",
     "socket.io-client": "git://github.com/Automattic/socket.io-client#05c9632"
   }

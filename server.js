@@ -11,6 +11,8 @@ var rl = readline.createInterface({
 	output: process.stdout
 });
 
+var _ = require('lodash')
+
 Array.prototype.remove = function(item){
 	for(var i = this.length; i--;) {
 		if(this[i] === item) {
@@ -27,14 +29,19 @@ chat();
 
 io.on('connection', function(socket){
 	socket.on('login', function(username){
-		socket.username = username
+		if(_.contains(list, username)){
+			socket.emit('incorrect', 'Please choose a different username.');
+		}
+		else{
+			socket.username = username
 
-		list.push(username)
+			list.push(username)
 
-		console.log('User List:')
-		console.log(list)
+			console.log('User List:')
+			console.log(list)
 
-		socket.emit('login', username);
+			socket.emit('login', 'Logged in as '+username);
+		}
 	})
 
 	socket.on('message', function(message){
