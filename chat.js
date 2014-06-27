@@ -12,7 +12,8 @@ var spawn = require('child_process').spawn
 
 var rl = readline.createInterface({
 	input: process.stdin,
-	output: process.stdout
+	output: process.stdout,
+	terminal: true
 });
 
 rl.question("Username: ", function(username) {
@@ -29,14 +30,16 @@ rl.question("Username: ", function(username) {
 	})
 
 	socket.on('message', function(message){
+		rl.pause()
 		console.log('\u0007'+message);
-		chat();
+		rl.prompt(true)
 	})
 
 	socket.on('speak', function(message){
+		rl.pause()
 		spawn('say', [message])
 		console.log(message);
-		chat();
+		rl.prompt(true)
 	})
 
 	socket.on('command', function(result){
