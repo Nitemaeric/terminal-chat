@@ -8,6 +8,7 @@ var socket = require('socket.io-client')('http://'+host+':'+port);
 var readline = require('readline');
 
 var fs = require('fs')
+var spawn = require('child_process').spawn.
 
 var rl = readline.createInterface({
 	input: process.stdin,
@@ -28,7 +29,8 @@ rl.question("Username: ", function(username) {
 	})
 
 	socket.on('message', function(message){
-		console.log(message);
+		spawn('say', ['new message'])
+		console.log('\u0007'+message);
 		chat();
 	})
 
