@@ -52,11 +52,13 @@ function login(){
 
 function chat(){
 	rl.question("", function(message){
-		if(message == '/dir'){
-			console.log(fs.readdirSync('.'))
-		}
-		else{
-			socket.emit('message', message)
+		if(message.length > 0){
+			if(message == '/dir'){
+				console.log(fs.readdirSync('.'))
+			}
+			else{
+				socket.emit('message', message)
+			}
 		}
 		chat();
 	})

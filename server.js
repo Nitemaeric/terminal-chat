@@ -45,13 +45,15 @@ io.on('connection', function(socket){
 	})
 
 	socket.on('message', function(message){
-		if(message[0] == '/'){
-			if(message == '/userlist' || message == '/ul'){
-				socket.emit('command', list)
+		if(message.length > 0){
+			if(message[0] == '/'){
+				if(message == '/userlist' || message == '/ul'){
+					socket.emit('command', list)
+				}
 			}
-		}
-		else{
-			socket.broadcast.emit('message', socket.username+': '+message)
+			else{
+				socket.broadcast.emit('message', socket.username+': '+message)
+			}
 		}
 	})
 
