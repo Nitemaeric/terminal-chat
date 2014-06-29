@@ -16,6 +16,8 @@ var rl = readline.createInterface({
 	terminal: true
 });
 
+var savePath = process.cwd();
+
 rl.question("Username: ", function(username) {
 	socket.emit('login', username);
 
@@ -43,7 +45,9 @@ rl.question("Username: ", function(username) {
 	})
 
 	socket.on('command', function(result){
+		rl.pause()
 		console.log(result);
+		rl.prompt(true)
 	})
 
 	socket.on('disconnect', function(){
@@ -63,6 +67,9 @@ function chat(){
 		if(message.length > 0){
 			if(message == '/dir'){
 				console.log(fs.readdirSync('.'))
+			}
+			else if(message == '/sp' || message == '/savepath'){
+				console.log(savePath);
 			}
 			else{
 				socket.emit('message', message)
